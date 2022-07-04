@@ -1,0 +1,4 @@
+u_core.register_file_i.rf_reg:160:97347: share 0
+u_core.register_file_i.rf_reg:288:118682: share 1
+u_core.register_file_i.rf_reg:928:98297: share 0
+u_core.register_file_i.rf_reg:960:98387: share 1

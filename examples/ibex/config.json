@@ -1,5 +1,5 @@
 {
-    "objdump": "/tools/riscv/bin/riscv32-unknown-elf-objdump",
-    "asm": "/tools/riscv/bin/riscv32-unknown-elf-as -march=rv32im",
-    "verilator_at_least_4_200": true
+    "objdump": "/home/abdullah/ot_tools/riscv/bin/riscv32-unknown-elf-objdump",
+    "asm": "/home/abdullah/ot_tools/riscv/bin/riscv32-unknown-elf-as -march=rv32im",
+    "verilator_at_least_4_200": false
 }
