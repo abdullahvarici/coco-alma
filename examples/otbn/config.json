@@ -1,0 +1,5 @@
+{
+    "asm": "/home/abdullah/workspace/opentitan/hw/ip/otbn/util/otbn_as.py",
+    "objdump": "/home/abdullah/workspace/opentitan/hw/ip/otbn/util/otbn_ld.py",
+    "verilator_at_least_4_200": false
+}
