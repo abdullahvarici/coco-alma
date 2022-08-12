@@ -1,2 +1,0 @@
-u_core.register_file_i.rf_reg:480:42316: share 1
-u_core.register_file_i.rf_reg:512:48211: share 1

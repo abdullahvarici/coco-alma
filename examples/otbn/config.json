@@ -1,5 +1,7 @@
 {
     "asm": "/home/abdullah/workspace/opentitan/hw/ip/otbn/util/otbn_as.py",
     "objdump": "/home/abdullah/workspace/opentitan/hw/ip/otbn/util/otbn_ld.py",
+    "opentitan_dir": "/home/abdullah/workspace/opentitan/",
+    "verilated_dir": "/home/abdullah/workspace/opentitan/build/lowrisc_ip_otbn_top_sim_0.1/sim-verilator/Votbn_top_sim",
     "verilator_at_least_4_200": false
 }
