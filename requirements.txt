@@ -1,2 +1,6 @@
 networkx==2.4
-python-sat==0.1.5.dev7
+python-sat==0.1.7.dev10
+wheel
+pyyaml
+mako
+hjson
