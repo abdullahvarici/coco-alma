@@ -1,5 +1,5 @@
-6:share 0
-7:share 0
-8:share 1
-9:share 1
-10:mask
+1:share 0
+3:share 0
+5:share 1
+7:share 1
+9:mask
