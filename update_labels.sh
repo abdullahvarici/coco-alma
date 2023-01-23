@@ -20,8 +20,8 @@ do
 
     if [ $1 == "otbn" ]
     then
-        sed -n "/u_imem\.mem\[$regnum\]:20:.*: unimportant/ s/unimportant/$label/p" tmp/labels-updated.txt
-        sed -i "/u_imem\.mem\[$regnum\]:20:.*: unimportant/ s/unimportant/$label/" tmp/labels-updated.txt
+        sed -n "/u_dmem\.mem\[$regnum\]:0:.*: unimportant/ s/unimportant/$label/p" tmp/labels-updated.txt
+        sed -i "/u_dmem\.mem\[$regnum\]:0:.*: unimportant/ s/unimportant/$label/" tmp/labels-updated.txt
     elif [ $1 == "ibex" ]
     then
         sed -n "/u_core\.register_file_i\.rf_reg:$regbitnum:.*: unimportant/ s/unimportant/$label/p" tmp/labels-updated.txt
