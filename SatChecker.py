@@ -744,7 +744,7 @@ class SatChecker(object):
 
             for node_id in self.circuit.nodes:
                 cell = self.circuit.cells[node_id]
-                if "dff u_otbn_core.u_otbn_rf_bignum.gen_rf_bignum_ff.u_otbn_rf_bignum_inner.rf" in str(cell):
+                if "_085745_" in str(cell):
                     try:
                         for mode, mstr in zip((stable, trans), ("stable", "trans ")):
                             res = self.formula.model_for_vars(model, mode[node_id])
