@@ -109,7 +109,7 @@ boolean_to_arithmetic:
        [w23, w22] <= s1 mod 2^320 = x1 */
   bn.rshi   w20, w20, w31 >> 2
   bn.rshi   w20, w31, w20 >> 254
-  bn.xor w31, w31, w31 # dummy
+  bn.xor    w31, w31, w31 # dummy
   bn.rshi   w22, w22, w31 >> 2
   bn.rshi   w22, w31, w22 >> 254
 
@@ -130,6 +130,8 @@ boolean_to_arithmetic:
   bn.sub    w3, w3, w1
   #bn.subb   w4, w4, w2
 
+  bn.sub w31, w31, w31 # dummy operation to clear flags
+
   /* Truncate subtraction result to 321 bits.
        [w4, w3] <= [w4, w3] mod 2^321 = T */
   bn.rshi   w3, w3, w31 >> 2
@@ -139,32 +141,28 @@ boolean_to_arithmetic:
   bn.xor    w3, w3, w20
   #bn.xor    w4, w4, w21
 
-  bn.xor w31, w31, w31 # dummy
+  bn.xor w31, w31, w31 # dummy, I think it is not necessary for full bit implementation 
 
   /* [w2, w1] <= [w2, w1] ^ [w23, w22] = gamma ^ s1 = G */
   bn.xor    w1, w1, w22
   #bn.xor    w2, w2, w23
 
-  bn.xor w31, w31, w31 # dummy
+  bn.xor w31, w31, w31 # dummy, I think it is not necessary for full bit implementation 
 
   /* [w21, w20] <= [w21, w20] ^ [w2, w1] = s0 ^ G */
-  bn.xor    w20, w20, w1
-  #bn.xor    w21, w21, w2
-
-  bn.sub w31, w31, w31 # dummy
+  bn.xor    w20, w20, w1 
+  # bn.xor    w21, w21, w2
 
   /* [w21, w20] <= [w21, w20] - [w2, w1] = ((s0 ^ G) - G) mod 2^512 */
   bn.sub    w20, w20, w1
   #bn.subb   w21, w21, w2
 
-  bn.xor w31, w31, w31 # dummy
+  bn.sub w31, w31, w31 # dummy operation to clear flags
 
   /* [w21, w20] <= [w21, w20] mod 2^321 = A */
   bn.rshi   w20, w20, w31 >> 2
   bn.rshi   w20, w31, w20 >> 254
 
-  bn.xor w31, w31, w31 # dummy
-  
   /* [w21, w20] <= [w21, w20] ^ [w4, w3] = A ^ T2 = x0 */
   bn.xor    w20, w20, w3
   #bn.xor    w21, w21, w4
