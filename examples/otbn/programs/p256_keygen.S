@@ -46,7 +46,7 @@ run_gen_secret_key:
   # label registers instead of sideload interface input
   bn.wsrr w20, 0x4
   #bn.wsrr w21, 0x5
-  bn.xor w31, w31, w31 # dummy
+  bn.xor w31, w31, w31 # dummy, I think it is not necessary for full bit implementation
   bn.wsrr w22, 0x6
   #bn.wsrr w23, 0x7
 
@@ -107,11 +107,11 @@ boolean_to_arithmetic:
   /* Mask out excess bits from seed shares.
        [w21, w20] <= s0 mod 2^320
        [w23, w22] <= s1 mod 2^320 = x1 */
-  bn.rshi   w20, w20, w31 >> 2
-  bn.rshi   w20, w31, w20 >> 254
+  bn.rshi   w20, w20, w31 >> 4
+  bn.rshi   w20, w31, w20 >> 252
   bn.xor    w31, w31, w31 # dummy
-  bn.rshi   w22, w22, w31 >> 2
-  bn.rshi   w22, w31, w22 >> 254
+  bn.rshi   w22, w22, w31 >> 4
+  bn.rshi   w22, w31, w22 >> 252
 
   /* Fetch 321 bits of randomness from URND.
        [w2, w1] <= gamma */
@@ -134,8 +134,8 @@ boolean_to_arithmetic:
 
   /* Truncate subtraction result to 321 bits.
        [w4, w3] <= [w4, w3] mod 2^321 = T */
-  bn.rshi   w3, w3, w31 >> 2
-  bn.rshi   w3, w31, w3 >> 254
+  bn.rshi   w3, w3, w31 >> 4
+  bn.rshi   w3, w31, w3 >> 252
 
   /* [w4, w3] <= [w4, w3] ^ [w21, w20] = T2 */
   bn.xor    w3, w3, w20
@@ -160,8 +160,8 @@ boolean_to_arithmetic:
   bn.sub w31, w31, w31 # dummy operation to clear flags
 
   /* [w21, w20] <= [w21, w20] mod 2^321 = A */
-  bn.rshi   w20, w20, w31 >> 2
-  bn.rshi   w20, w31, w20 >> 254
+  bn.rshi   w20, w20, w31 >> 4
+  bn.rshi   w20, w31, w20 >> 252
 
   /* [w21, w20] <= [w21, w20] ^ [w4, w3] = A ^ T2 = x0 */
   bn.xor    w20, w20, w3
