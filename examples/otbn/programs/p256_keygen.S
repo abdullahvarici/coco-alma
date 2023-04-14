@@ -163,8 +163,15 @@ boolean_to_arithmetic:
   bn.rshi   w20, w20, w31 >> 4
   bn.rshi   w20, w31, w20 >> 252
 
+  # apply fresh mask to w20 before xoring with w3
+  bn.wsrr   w28, 1
+  bn.xor w20, w28, w20
+  bn.xor w31, w31, w31 # dummy
+
   /* [w21, w20] <= [w21, w20] ^ [w4, w3] = A ^ T2 = x0 */
   bn.xor    w20, w20, w3
+  bn.xor w31, w31, w31 # dummy
+  bn.xor w20, w28, w20
   #bn.xor    w21, w21, w4
 
   ret
