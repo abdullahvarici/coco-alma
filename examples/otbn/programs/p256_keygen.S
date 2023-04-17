@@ -45,10 +45,10 @@ run_gen_secret_key:
   # Comment this part to assume the seeds are already in bignum registers and
   # label registers instead of sideload interface input
   bn.wsrr w20, 0x4
-  #bn.wsrr w21, 0x5
+  bn.wsrr w21, 0x5
   bn.xor w31, w31, w31 # dummy, I think it is not necessary for full bit implementation
   bn.wsrr w22, 0x6
-  #bn.wsrr w23, 0x7
+  bn.wsrr w23, 0x7
 
   /* Generate the derived secret key.
        [w21,w20] <= d0
@@ -106,73 +106,76 @@ run_gen_secret_key:
 boolean_to_arithmetic:
   /* Mask out excess bits from seed shares.
        [w21, w20] <= s0 mod 2^320
-       [w23, w22] <= s1 mod 2^320 = x1 */
-  bn.rshi   w20, w20, w31 >> 4
-  bn.rshi   w20, w31, w20 >> 252
-  bn.xor    w31, w31, w31 # dummy
-  bn.rshi   w22, w22, w31 >> 4
-  bn.rshi   w22, w31, w22 >> 252
+       [w23, w22] <= s1 mod 2^320 = x1 */  
+  bn.rshi   w21, w21, w31 >> 64
+  bn.rshi   w21, w31, w21 >> 192
+  bn.rshi   w31, w31, w31 >> 192 # dummy
+  bn.rshi   w23, w23, w31 >> 64
+  bn.rshi   w23, w31, w23 >> 192
 
   /* Fetch 321 bits of randomness from URND.
        [w2, w1] <= gamma */
   # Use RND instead of URND for this analysis
   bn.wsrr   w1, 1
-  #bn.wsrr   w2, 1
-  #bn.rshi   w2, w31, w2 >> 192
+  bn.wsrr   w2, 1
+  bn.rshi   w2, w31, w2 >> 192
 
   /* [w4, w3] <= [w21, w20] ^ [w2, w1] = s0 ^ gamma */
   bn.xor    w3, w20, w1
-  #bn.xor    w4, w21, w2
+  bn.xor    w4, w21, w2
 
   /* Subtract gamma. This may result in bits above 2^321, but these will be
      stripped off in the next step.
        [w4, w3] <= [w4, w3] - [w2, w1] = ((s0 ^ gamma) - gamma) mod 2^512 */
   bn.sub    w3, w3, w1
-  #bn.subb   w4, w4, w2
+  bn.subb   w4, w4, w2
 
-  bn.sub w31, w31, w31 # dummy operation to clear flags
+  bn.sub    w31, w31, w31 # dummy operation to clear flags
 
   /* Truncate subtraction result to 321 bits.
        [w4, w3] <= [w4, w3] mod 2^321 = T */
-  bn.rshi   w3, w3, w31 >> 4
-  bn.rshi   w3, w31, w3 >> 252
+  bn.rshi   w4, w4, w31 >> 64
+  bn.rshi   w4, w31, w4 >> 192
 
   /* [w4, w3] <= [w4, w3] ^ [w21, w20] = T2 */
   bn.xor    w3, w3, w20
-  #bn.xor    w4, w4, w21
+  bn.xor    w4, w4, w21
 
-  bn.xor w31, w31, w31 # dummy, I think it is not necessary for full bit implementation 
+  bn.xor    w31, w31, w31 # dummy, I think it is not necessary for full bit implementation 
 
   /* [w2, w1] <= [w2, w1] ^ [w23, w22] = gamma ^ s1 = G */
   bn.xor    w1, w1, w22
-  #bn.xor    w2, w2, w23
+  bn.xor    w2, w2, w23
 
   bn.xor w31, w31, w31 # dummy, I think it is not necessary for full bit implementation 
 
   /* [w21, w20] <= [w21, w20] ^ [w2, w1] = s0 ^ G */
   bn.xor    w20, w20, w1 
-  # bn.xor    w21, w21, w2
+  bn.xor    w21, w21, w2
 
   /* [w21, w20] <= [w21, w20] - [w2, w1] = ((s0 ^ G) - G) mod 2^512 */
   bn.sub    w20, w20, w1
-  #bn.subb   w21, w21, w2
+  bn.subb   w21, w21, w2
 
   bn.sub w31, w31, w31 # dummy operation to clear flags
 
   /* [w21, w20] <= [w21, w20] mod 2^321 = A */
-  bn.rshi   w20, w20, w31 >> 4
-  bn.rshi   w20, w31, w20 >> 252
+  bn.rshi   w21, w21, w31 >> 64
+  bn.rshi   w21, w31, w21 >> 192
 
   # apply fresh mask to w20 before xoring with w3
   bn.wsrr   w28, 1
-  bn.xor w20, w28, w20
-  bn.xor w31, w31, w31 # dummy
+  bn.wsrr   w29, 1
+  bn.xor    w20, w28, w20
+  bn.xor    w21, w29, w21
+  bn.xor    w31, w31, w31 # dummy, I think it is not necessary for full bit implementation 
 
   /* [w21, w20] <= [w21, w20] ^ [w4, w3] = A ^ T2 = x0 */
   bn.xor    w20, w20, w3
-  bn.xor w31, w31, w31 # dummy
-  bn.xor w20, w28, w20
-  #bn.xor    w21, w21, w4
+  bn.xor    w21, w21, w4
+  bn.xor    w31, w31, w31 # dummy, I think it is not necessary for full bit implementation 
+  bn.xor    w20, w28, w20
+  bn.xor    w21, w29, w21
 
   ret
 
