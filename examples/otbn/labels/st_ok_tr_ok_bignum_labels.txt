@@ -1,0 +1,4 @@
+u_dmem.mem[1] [0] = secret 0
+u_dmem.mem[1] [311:1] = unimportant
+u_dmem.mem[2] [0] = secret 0
+u_dmem.mem[2] [311:1] = unimportant

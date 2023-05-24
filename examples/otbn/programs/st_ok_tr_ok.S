@@ -2,8 +2,11 @@
 
 .section .text.start
 
-lw x2, 32(x0) # share 0
-lw x30, 96(x0) # dummy op
-lw x3, 64(x0) # share 0
+# x2 = dmem[1] # share 0
+lw x2, 32(x0)
+# x30 = dmem[3] # share 0
+lw x30, 96(x0)
+# x3 = dmem[2] # share 0
+lw x3, 64(x0)
 
 ecall

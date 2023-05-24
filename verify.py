@@ -183,8 +183,9 @@ def generate_ignored(circuit, json_module, ignored_strings):
         if all(map(lambda p: p in ignored, preds)):
             ignored.add(node_id)
 
-    for node_id in ignored:
-        print(circuit.cells[node_id])
+    # for node_id in ignored:
+    #     print(circuit.cells[node_id])
+    print(len(ignored), "nodes are ignored.")
 
     return ignored
 

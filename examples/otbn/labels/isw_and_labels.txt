@@ -1,0 +1,10 @@
+u_dmem.mem[0] [0] = secret 0
+u_dmem.mem[0] [311:1] = unimportant
+u_dmem.mem[1] [0] = secret 0
+u_dmem.mem[1] [311:1] = unimportant
+u_dmem.mem[2] [0] = secret 1
+u_dmem.mem[2] [311:1] = unimportant
+u_dmem.mem[3] [0] = secret 1
+u_dmem.mem[3] [311:1] = unimportant
+u_dmem.mem[4] [0] = static_random
+u_dmem.mem[4] [311:1] = unimportant
